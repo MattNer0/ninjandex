@@ -1,0 +1,37 @@
+extends ../layouts/default
+
+block content
+	.container
+		each folder in folders
+			.container: .jumbotron
+				h1= folder.folderName
+				div
+					each file in folder.files
+						.fileBox.panel
+							.container-fluid
+								.row
+									.col-md-1.centerTxt
+										if file.isFolder
+											span.glyphicon.glyphicon-folder-close
+										else
+											span.glyphicon.glyphicon-file
+
+									.col-md-9
+										h3= file.name
+										p
+											= file.path
+											
+											if !file.isFolder
+												|  -  
+												span
+													= (file.size/1000).toFixed(1)
+													| Kb
+
+									.col-md-1.centerTxt
+										if file.isFolder
+											a(href="/open/"+folder.id+"/?path="+file.encoded_path, title="Open")
+												span.glyphicon.glyphicon-folder-open
+
+									.col-md-1.centerTxt
+										a(href="/download/"+folder.id+"/?path="+file.encoded_path, title="Download")
+											span.glyphicon.glyphicon-cloud-download
