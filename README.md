@@ -15,15 +15,15 @@ Simple Nodejs Index with compressed folder download
 
 Install dependencies with:
 
-'''
+```
 npm install
-'''
+```
 
 And then run the application with:
 
-'''
+```
 npm start
-'''
+```
 
 Listens on port 3000 by default
 
