@@ -41,4 +41,4 @@ Listens on port 3000 by default
 - Show a directory's total size
 - List & Grid View
 - Responsive
-
+- Download Log
