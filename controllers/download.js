@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var slug = require('slug');
 
-exports = module.exports = function(req, res) {
+module.exports = function(req, res) {
 
 	var view = new keystone.View(req, res);
 	var locals = res.locals;
@@ -13,21 +13,16 @@ exports = module.exports = function(req, res) {
 	locals.section = 'download';
 
 	var pathFile = decodeURIComponent(req.query.path);
+	if( pathFile.indexOf('/../') >= 0 || pathFile.indexOf('../') == 0 ) res.redirect('/');
 	var file_slug = slug( path.basename( pathFile ) );
 
-	console.log(file_slug);
-
-	if( user && (user.folderGroup || user.isAdmin ) ) {
+	if( user.folderGroup || user.isAdmin ) {
 
 		var Folder = keystone.list('Folder');
 		Folder.model.findById(req.params.folder_id).exec(function(err, folder){
-			if(!user.isAdmin && user.folderGroup != folder.folderGroup){
-				res.redirect('/');
-			}
 
-			if( pathFile.indexOf(folder.path) < 0 ){
-				res.redirect('/');
-			}
+			if(!user.isAdmin && user.folderGroup != folder.folderGroup) res.redirect('/');
+			if( pathFile.indexOf(folder.path) < 0 ) res.redirect('/');
 
 			var archive = archiver('zip');
 

@@ -9,7 +9,8 @@ keystone.pre('render', middleware.flashMessages);
 // Import Route Controllers
 var controllers = importRoutes('../controllers');
 
-exports = module.exports = function (app) {
+module.exports = function (app) {
 	app.get( '/', controllers.index );
-	app.get( '/download/:folder_id', controllers.download );
+	app.get( '/download/:folder_id', 	middleware.requireUser, 	controllers.download );
+	app.get( '/open/:folder_id', 		middleware.requireUser, 	controllers.open );
 };

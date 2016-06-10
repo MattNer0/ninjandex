@@ -5,7 +5,11 @@ block content
 		if folders
 			each folder in folders
 				.container: .jumbotron
-					h1= folder.folderName
+					h1
+						= folder.folderName
+						if folder.path_back
+							a(href="/open/"+folder.id+"/?path="+folder.path_back, title="Open")
+								span.glyphicon.glyphicon-level-up
 					div
 						each file in folder.files
 							.fileBox.panel
