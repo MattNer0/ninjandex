@@ -25,7 +25,13 @@ And then run the application with:
 npm start
 ```
 
-Listens on port 3000 by default
+Listens on port 3000 by default,
+you can change port and host inside the `keystone.js` file.
+
+Default username and password are:
+user: admin@ninjandex.com
+password: admin
+(from `updates/0.0.1-admins.js`)
 
 ## Featuressssss
 
@@ -37,7 +43,7 @@ Listens on port 3000 by default
 
 ## ToDo
 
-- More file manager features ( deeper browsing inside folders )
+- More file manager features
 - Show a directory's total size
 - List & Grid View
 - Responsive

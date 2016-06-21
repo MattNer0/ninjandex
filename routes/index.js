@@ -13,4 +13,6 @@ module.exports = function (app) {
 	app.get( '/', controllers.index );
 	app.get( '/download/:folder_id', 	middleware.requireUser, 	controllers.download );
 	app.get( '/open/:folder_id', 		middleware.requireUser, 	controllers.open );
+
+	app.post('/upload', middleware.requireUser, 	controllers.upload );
 };

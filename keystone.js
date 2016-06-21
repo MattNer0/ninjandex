@@ -21,6 +21,9 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 
+	'port' : 3000,
+	'host' : '127.0.0.1',
+
 });
 
 keystone.import('models');

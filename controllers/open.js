@@ -28,6 +28,7 @@ module.exports = function(req, res) {
 				path_back: encodeURIComponent( path.join(pathFolder, '..') ),
 				folderName: path.basename( pathFolder ),
 				files: fileManager.readFilesInsideFolder( pathFolder ),
+				permissions: fileManager.read_write_permissions( pathFolder )
 			}];
 			
 			view.render('index');

@@ -1,42 +1,77 @@
 extends ../layouts/default
 
 block content
-	.container
-		if folders
-			each folder in folders
-				.container: .jumbotron
-					h1
-						= folder.folderName
-						if folder.path_back
-							a(href="/open/"+folder.id+"/?path="+folder.path_back, title="Open")
-								span.glyphicon.glyphicon-level-up
-					div
-						each file in folder.files
-							.fileBox.panel
-								.container-fluid
-									.row
-										.col-md-1.centerTxt
-											if file.isFolder
-												span.glyphicon.glyphicon-folder-close
-											else
-												span.glyphicon.glyphicon-file
+	.pure-g
+		.pure-u-1.pure-u-md-1-12
+		.pure-u-1.pure-u-md-5-6
+			if folders
+				each folder in folders
+					.folderOuterContainer
+						.pure-g.folderContainerHeader
+							.pure-u-1.pure-u-md-21-24
+								h1
+									img.icon(src="/icons/home.svg")
+									= folder.folderName
+							.pure-u-1.pure-u-md-3-24
+								if folder.permissions == 'read/write'
+									form.fileUpload(action="/upload", method="POST", enctype="multipart/form-data")
+										input(type="hidden", name="path", value=folder.path, required)
+										input(type="hidden", name="folder_id", value=folder.id, required)
+										input(type="file", name="upload", required)
+										button.pure-button.pure-button-primary(type="button")
+											| Upload File
 
-										.col-md-9
-											h3= file.name
-											p
-												= file.path
+									script(type="text/javascript").
+										$("input[type=file]").change(function(e){
+											console.log('submit');
+											$("form.fileUpload").submit();
+										});
+						div
+							if folder.path_back
+								.fileBox.panel
+									.pure-g
+										.pure-u-1.pure-u-md-23-24
+											.fileTitle
+												a(href="/open/"+folder.id+"/?path="+folder.path_back, title="Open")
+													img.icon(src="/icons/back.svg")
+													| ..
 												
-												if !file.isFolder
-													|  -  
+										.pure-u-1.pure-u-md-1-24
+									
+										
+							each file in folder.files
+								.fileBox.panel
+									.pure-g
+										.pure-u-1.pure-u-md-23-24
+											.fileTitle
+												if file.isFolder
+													a(href="/open/"+folder.id+"/?path="+file.encoded_path, title="Open")
+														img.icon(src="/icons/folder_closed.svg")
+														= file.name
+												else
 													span
-														= (file.size/1000).toFixed(1)
-														| Kb
+														if file.extension == '.png' || file.extension == '.jpg' || file.extension == '.svg' || file.extension == '.bmp' || file.extension == '.gif'
+															img.icon(src="/icons/picture.svg")
+														else if file.extension == '.avi' || file.extension == '.mp4' || file.extension == '.wmv' || file.extension == '.mpg' || file.extension == '.webm'
+															img.icon(src="/icons/video-player.svg")
+														else if file.extension == '.zip' || file.extension == '.rar' || file.extension == '.tar' || file.extension == '.gz' || file.extension == '.7z'
+															img.icon(src="/icons/archive.svg")
+														else
+															img.icon(src="/icons/file.svg")
+														
+														= file.name
+											
+												p
+													= file.path
+													
+													if !file.isFolder
+														|  -  
+														span
+															= (file.size/1000).toFixed(1)
+															| Kb
 
-										.col-md-1.centerTxt
-											if file.isFolder
-												a(href="/open/"+folder.id+"/?path="+file.encoded_path, title="Open")
-													span.glyphicon.glyphicon-folder-open
-
-										.col-md-1.centerTxt
-											a(href="/download/"+folder.id+"/?path="+file.encoded_path, title="Download")
-												span.glyphicon.glyphicon-cloud-download
+										.pure-u-1.pure-u-md-1-24
+											div
+												a(href="/download/"+folder.id+"/?path="+file.encoded_path, title="Download")
+													img.icon(src="/icons/download.svg")
+		.pure-u-1.pure-u-md-1-12

@@ -11,15 +11,11 @@ html
 		title= title || 'Ninjandex'
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
+		link(rel="stylesheet", href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css")
+		link(rel="stylesheet", href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css")
+
 		//- Customise the stylesheet for your site by editing /public/styles/site.sass
 		link(href="/styles/site.css", rel="stylesheet")
-
-		//- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
-		//- Safely remove this block if you are not targeting IE8
-		//-[if lt IE 9]
-			script(src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.js")
-			script(src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js")
-		//-[endif]
 
 		//- Include template-specific stylesheets by extending the css block
 		block css
@@ -27,34 +23,34 @@ html
 		//- Add any other template-specific HEAD tags by extending the head block
 		block head
 
+		script(src="/js/jquery/jquery-3.0.0.min.js", type="text/javascript")
+
 	body
 
 		header
+			.pure-menu.pure-menu-horizontal
+				a.pure-menu-heading.pure-menu-link(href="/")
+					| Ninjandex
+				ul.pure-menu-list
+					each link in navLinks
+						li.pure-menu-item
+							a.pure-menu-link(href=link.href)
+								= link.label
 
-			div(role="navigation").navbar.navbar-default
-				.container-fluid
-					.navbar-header
-						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-							span.sr-only Toggle navigation
-							span.icon-bar
-							span.icon-bar
-							span.icon-bar
-						a.navbar-brand(href='/') Ninjandex
-					.collapse.navbar-collapse
-						ul.nav.navbar-nav.navbar-left
-							each link in navLinks
-								li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-						
-						ul.nav.navbar-nav.navbar-right
-							if user
-								if user.canAccessKeystone
-									li: a(href='/keystone') Admin Panel
-								li: a(href='/keystone/signout') Sign Out
-							else
-								li: a(href='/keystone/signin') Sign In
+					if user
+						if user.canAccessKeystone
+							li.pure-menu-item
+								a.pure-menu-link(href="/keystone") Admin Panel
+
+						li.pure-menu-item
+							a.pure-menu-link(href="/keystone/signout") Sign Out
+
+					else
+						li.pure-menu-item
+							a.pure-menu-link(href="/keystone/signin") Sign In
 
 		//- BODY
-		#body
+		.body
 
 			//- NOTE:
 			//- There is no .container wrapping class around body blocks to allow more flexibility in design.

@@ -8,7 +8,7 @@ var Types = keystone.Field.Types;
 var Folder = new keystone.List('Folder');
 
 Folder.add({
-	path: { type: String, required: true, index: true, initial: true },
+	path: { type: String, required: true, label: "Absolute Path", index: true, initial: true },
 }, 'Permissions', {
 	folderGroup: { type: Number, label: "Folder Group Access", index: true },
 });
