@@ -99,7 +99,11 @@ function checkFileExists( folder_path, filename, timestamp ){
 	}
 }
 
-function moveFile( fromPath, toPath ){
+function exists(folder_path){
+	return fs.existsSync(folder_path);
+}
+
+function moveFile(fromPath, toPath){
 	fs.renameSync( fromPath, toPath);
 }
 
@@ -108,5 +112,6 @@ module.exports = {
 	readFilesInsideFolder: 	readFilesInsideFolder,
 	read_write_permissions: read_write_permissions,
 	checkFileExists: checkFileExists,
+	exists: exists,
 	moveFile: moveFile
 }

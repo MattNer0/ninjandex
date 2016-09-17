@@ -10,15 +10,18 @@ module.exports = function(req, res) {
 
 	locals.section = 'open';
 
+	if(!req.query.path || !req.params.folder_id) return res.redirect('back');
+
 	var pathFolder = decodeURIComponent(req.query.path);
-	if( pathFolder.indexOf('/../') >= 0 || pathFolder.indexOf('../') == 0 ) res.redirect('back');
+	if( pathFolder.indexOf('/../') >= 0 || pathFolder.indexOf('../') == 0 ) return res.redirect('back');
+	if( !fileManager.exists(pathFolder) ) return res.redirect('back');
 
 	if( user.folderGroup || user.isAdmin ) {
 
 		var Folder = keystone.list('Folder');
 		Folder.model.findById(req.params.folder_id).exec(function(err, folder){
 
-			if(!user.isAdmin && user.folderGroup != folder.folderGroup) return res.redirect('back');
+			if( !user.isAdmin && user.folderGroup != folder.folderGroup ) return res.redirect('back');
 			if( pathFolder == folder.path || pathFolder+'/' == folder.path ) return res.redirect('/');
 			if( pathFolder.indexOf(folder.path) < 0 ) return res.redirect('back');
 
@@ -30,10 +33,9 @@ module.exports = function(req, res) {
 				files: fileManager.readFilesInsideFolder( pathFolder ),
 				permissions: fileManager.read_write_permissions( pathFolder )
 			}];
-			
 			view.render('index');
 		});
 	} else {
-		res.redirect('back');
+		return res.redirect('back');
 	}
 };
